@@ -8,6 +8,7 @@ public class PlayerObjects : MonoBehaviour
     private GameObject _objectBomb;
     private GameObject _objectDoor;
     private GameObject _objectGargoyl;
+    private GameObject _objectSpoon;
 
     [SerializeField]
     private GameObject _door1;
@@ -29,12 +30,22 @@ public class PlayerObjects : MonoBehaviour
 
     [SerializeField]
     private GameObject _bomb1;
-
     [SerializeField]
     private GameObject _bomb2;
-
     [SerializeField]
     private GameObject _bomb3;
+
+    [SerializeField]
+    private GameObject _spoon1;
+    [SerializeField]
+    private GameObject _spoon2;
+    [SerializeField]
+    private GameObject _spoon3;
+    [SerializeField]
+    private GameObject _spoon4;
+    [SerializeField]
+    private GameObject _spoon5;
+
     [SerializeField]
     private GameObject _gargoyl1;
     [SerializeField]
@@ -49,9 +60,11 @@ public class PlayerObjects : MonoBehaviour
     private GameObject _gargoyl6;
 
     private int _numberOfSpiritBombs = 0;
+    private int _numberOfSpoons = 0;
 
     private bool m_IsKeyInRange = false;
     private bool m_IsBombInRange = false;
+    private bool m_IsSpoonInRange = false;
     private bool _isKey1InHand = false;
     private bool _isKey2InHand = false;
     private bool _isKey3InHand = false;
@@ -66,6 +79,11 @@ public class PlayerObjects : MonoBehaviour
     private Collider bomb1Coll;
     private Collider bomb2Coll;
     private Collider bomb3Coll;
+    private Collider spoon1Coll;
+    private Collider spoon2Coll; 
+    private Collider spoon3Coll;
+    private Collider spoon4Coll;
+    private Collider spoon5Coll;
 
     private Behaviour _halo;
 
@@ -78,6 +96,11 @@ public class PlayerObjects : MonoBehaviour
         bomb1Coll = _bomb1.GetComponent<Collider>();
         bomb2Coll = _bomb2.GetComponent<Collider>();
         bomb3Coll = _bomb3.GetComponent<Collider>();
+        spoon1Coll = _spoon1.GetComponent<Collider>();
+        spoon2Coll = _spoon2.GetComponent<Collider>();
+        spoon3Coll = _spoon3.GetComponent<Collider>();
+        spoon4Coll = _spoon4.GetComponent<Collider>();
+        spoon5Coll = _spoon5.GetComponent<Collider>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -118,6 +141,22 @@ public class PlayerObjects : MonoBehaviour
             _halo.enabled = true;
 
             m_IsBombInRange = true;
+        }
+
+        if (other == spoon1Coll || other == spoon2Coll || other == spoon3Coll || other == spoon4Coll || other == spoon5Coll)
+        {
+            m_IsSpoonInRange = true;
+            if (other == spoon1Coll)
+                _objectSpoon = _spoon1;
+            if (other == spoon2Coll)
+                _objectSpoon = _spoon2;
+            if (other == spoon3Coll)
+                _objectSpoon = _spoon3;
+            if (other == spoon4Coll)
+                _objectSpoon = _spoon4;
+            if (other == spoon5Coll)
+                _objectSpoon = _spoon5;
+
         }
 
         if (other == _door1.GetComponent<Collider>())
@@ -185,6 +224,11 @@ public class PlayerObjects : MonoBehaviour
             _halo.enabled = false;
         }
 
+        if (other == spoon1Coll || other == spoon2Coll || other == spoon3Coll || other == spoon4Coll || other == spoon5Coll)
+        {
+            m_IsSpoonInRange = false;
+        }
+
         if (other == _door1.GetComponent<Collider>())
         {
             _IsDoor1InRange = false;
@@ -248,6 +292,14 @@ public class PlayerObjects : MonoBehaviour
                 _numberOfSpiritBombs++;
                 _objectBomb.SetActive(false);
                 //m_IsBombInRange = false;
+            }
+        }
+        if (m_IsSpoonInRange)
+        {
+            if (Input.GetKeyDown(KeyCode.E) && _objectSpoon.activeInHierarchy)
+            {
+                _numberOfSpoons++;
+                _objectSpoon.SetActive(false);
             }
         }
         if (_IsDoor1InRange)
